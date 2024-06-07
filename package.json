@@ -1,5 +1,5 @@
 {
-  "name": "todo-list",
+  "name": "weather-app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,12 +13,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "css-loader": "^7.1.1",
+    "css-loader": "^7.1.2",
     "html-webpack-plugin": "^5.6.0",
-    "json5": "^2.2.3",
     "style-loader": "^4.0.0",
     "webpack": "^5.91.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.4"
+    "webpack-cli": "^5.1.4"
   }
 }

@@ -1,5 +1,4 @@
 const path = require("path");
-const json5 = require("json5");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
@@ -24,13 +23,6 @@ module.exports = {
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: "asset/resource",
-      },
-      {
-        test: /\.json5$/i,
-        type: "json",
-        parser: {
-          parse: json5.parse,
-        },
       },
     ],
   },
