@@ -1,1 +1,24 @@
-<script defer src="bundle.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weathery</title>
+    <script defer src="index.js"></script>
+  </head>
+  <body>
+    <h1>Weathery</h1>
+    <h2>Check your city's weather</h2>
+    <div class="weather-card">
+      <h3 class="city-title" data-city-title></h3>
+      <h3 data-city-date></h3>
+      <div class="weather-data">
+        <img data-current-weather-icon />
+        <div>
+          <p data-current-condition></p>
+          <p data-current-temp></p>
+        </div>
+      </div>
+    </div>
+  <script defer src="bundle.js"></script></body>
+</html>
