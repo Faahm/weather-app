@@ -13,26 +13,24 @@ const API_KEY = process.env.API_KEY;
 
 async function get_current(city) {
   const response = await fetch(
-    `${BASE_URL}/current.json?key=${API_KEY}&q=${city}`
+    `${BASE_URL}/forecast.json?key=${API_KEY}&q=${city}`
   );
-  const currentCityData = await response.json();
+  const cityData = await response.json();
 
-  console.log(`${BASE_URL}/current.json?key=${API_KEY}&q=${city}`);
+  console.log(`${BASE_URL}/forecast.json?key=${API_KEY}&q=${city}`);
 
-  currentCityData;
-  display_current_weather(currentCityData);
+  display_current_weather(cityData);
+  get_forecast(cityData);
 }
 
-function display_current_weather(currentCityData) {
-  city_title.innerText = `${currentCityData["location"]["name"]}`;
-  city_date.innerText = `${currentCityData["location"]["localtime"]}`;
-  current_weather_icon.src = `${currentCityData["current"]["condition"]["icon"]}`;
-  current_condition.innerText = `${currentCityData["current"]["condition"]["text"]}`;
-  current_temp.innerText = `${currentCityData["current"]["temp_c"]}°C`;
+function display_current_weather(cityData) {
+  city_title.innerText = `${cityData["location"]["name"]}`;
+  city_date.innerText = `${cityData["location"]["localtime"]}`;
+  current_weather_icon.src = `${cityData["current"]["condition"]["icon"]}`;
+  current_condition.innerText = `${cityData["current"]["condition"]["text"]}`;
+  current_temp.innerText = `${cityData["current"]["temp_c"]}°C`;
 }
 
-// async function get_forecast("London") {
-
-// }
+async function get_forecast(cityData) {}
 
 get_current("London");
