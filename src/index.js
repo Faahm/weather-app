@@ -1,4 +1,5 @@
 import "./style.css";
+import weatherBackgroundColors from "./weatherColors.js";
 
 const city_title = document.querySelector("[data-city-title]");
 const city_date = document.querySelector("[data-city-date]");
@@ -10,8 +11,6 @@ const current_temp = document.querySelector("[data-current-temp]");
 const cityInput = document.getElementById("city-input");
 const dropdown = document.getElementById("dropdown");
 const forecastContainer = document.getElementById("forecast-container");
-const gifSearch = document.getElementById("gif-search");
-const gifRefreshButton = document.getElementById("gif-refresh-button");
 const gifImage = document.getElementById("gif-image");
 
 const BASE_URL = process.env.BASE_URL;
@@ -37,6 +36,10 @@ function displayCurrentWeather(cityData) {
   current_weather_icon.src = `${cityData["current"]["condition"]["icon"]}`;
   current_condition.innerText = `${cityData["current"]["condition"]["text"]}`;
   current_temp.innerText = `${cityData["current"]["temp_c"]}°C`;
+
+  const weatherCode = cityData["current"]["condition"]["code"];
+  const backgroundColor = weatherBackgroundColors[weatherCode];
+  document.body.style.backgroundColor = backgroundColor;
 }
 
 async function getForecast(city) {
@@ -44,16 +47,11 @@ async function getForecast(city) {
     `${BASE_URL}/forecast.json?key=${API_KEY}&q=${city}&days=3`
   );
   const forecastData = await response.json();
-
-  console.log(`${BASE_URL}/forecast.json?key=${API_KEY}&q=${city}&days=3`);
-
   displayForecast(forecastData);
 }
 
 function displayForecast(forecastData) {
   forecastContainer.innerHTML = "";
-
-  console.log(forecastData);
 
   forecastData.forecast.forecastday.forEach((day) => {
     const forecastCard = createForecastCard(day);
@@ -94,11 +92,6 @@ async function generateGif(query) {
     alert("Failed to fetch a GIF.");
   }
 }
-
-gifRefreshButton.addEventListener("click", function () {
-  const searchQuery = gifSearch.value;
-  generateGif(searchQuery);
-});
 
 async function searchCities(query) {
   const response = await fetch(
