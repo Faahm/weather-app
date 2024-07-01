@@ -94,3 +94,14 @@ p {
   flex-wrap: wrap;
   gap: 10px;
 }
+
+.gif-container {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 20vw;
+}

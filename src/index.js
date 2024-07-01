@@ -8,12 +8,15 @@ const current_weather_icon = document.querySelector(
 const current_condition = document.querySelector("[data-current-condition]");
 const current_temp = document.querySelector("[data-current-temp]");
 const cityInput = document.getElementById("city-input");
-const searchButton = document.getElementById("search-button");
 const dropdown = document.getElementById("dropdown");
 const forecastContainer = document.getElementById("forecast-container");
+const gifSearch = document.getElementById("gif-search");
+const gifRefreshButton = document.getElementById("gif-refresh-button");
+const gifImage = document.getElementById("gif-image");
 
 const BASE_URL = process.env.BASE_URL;
 const API_KEY = process.env.API_KEY;
+const GIPHY_API_KEY = "9Nd5eVjW5ErtHsMUHthCTFMYwPeHBI41";
 
 async function getCurrent(city) {
   const response = await fetch(
@@ -25,6 +28,7 @@ async function getCurrent(city) {
 
   displayCurrentWeather(cityData);
   getForecast(cityData["location"]["name"]);
+  generateGif(cityData.current.condition.text);
 }
 
 function displayCurrentWeather(cityData) {
@@ -80,6 +84,22 @@ function createForecastCard(dayData) {
   return card;
 }
 
+async function generateGif(query) {
+  let url = `https://api.giphy.com/v1/gifs/translate?api_key=${GIPHY_API_KEY}&s=${query}`;
+  try {
+    const response = await fetch(url, { mode: "cors" });
+    const gifData = await response.json();
+    gifImage.src = gifData.data.images.original.url;
+  } catch {
+    alert("Failed to fetch a GIF.");
+  }
+}
+
+gifRefreshButton.addEventListener("click", function () {
+  const searchQuery = gifSearch.value;
+  generateGif(searchQuery);
+});
+
 async function searchCities(query) {
   const response = await fetch(
     `${BASE_URL}/search.json?key=${API_KEY}&q=${query}`
@@ -116,8 +136,6 @@ function displayDropdown(cities) {
     dropdown.appendChild(item);
   });
 }
-
-searchButton.addEventListener("click", handleSearch);
 
 cityInput.addEventListener("keypress", function (event) {
   if (event.key === "Enter") {
