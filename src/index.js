@@ -10,25 +10,24 @@ const current_temp = document.querySelector("[data-current-temp]");
 const cityInput = document.getElementById("city-input");
 const searchButton = document.getElementById("search-button");
 const dropdown = document.getElementById("dropdown");
+const forecastContainer = document.getElementById("forecast-container");
 
 const BASE_URL = process.env.BASE_URL;
 const API_KEY = process.env.API_KEY;
 
-async function get_current(city) {
+async function getCurrent(city) {
   const response = await fetch(
     `${BASE_URL}/forecast.json?key=${API_KEY}&q=${city}`
   );
   const cityData = await response.json();
 
-  console.log(`${BASE_URL}/forecast.json?key=${API_KEY}&q=${city}`);
-
   dropdown.style.display = "none";
 
-  display_current_weather(cityData);
-  get_forecast(cityData);
+  displayCurrentWeather(cityData);
+  getForecast(cityData["location"]["name"]);
 }
 
-function display_current_weather(cityData) {
+function displayCurrentWeather(cityData) {
   city_title.innerText = `${cityData["location"]["name"]}`;
   city_date.innerText = `${cityData["location"]["localtime"]}`;
   current_weather_icon.src = `${cityData["current"]["condition"]["icon"]}`;
@@ -36,7 +35,50 @@ function display_current_weather(cityData) {
   current_temp.innerText = `${cityData["current"]["temp_c"]}°C`;
 }
 
-async function get_forecast(cityData) {}
+async function getForecast(city) {
+  const response = await fetch(
+    `${BASE_URL}/forecast.json?key=${API_KEY}&q=${city}&days=3`
+  );
+  const forecastData = await response.json();
+
+  console.log(`${BASE_URL}/forecast.json?key=${API_KEY}&q=${city}&days=3`);
+
+  displayForecast(forecastData);
+}
+
+function displayForecast(forecastData) {
+  forecastContainer.innerHTML = "";
+
+  console.log(forecastData);
+
+  forecastData.forecast.forecastday.forEach((day) => {
+    const forecastCard = createForecastCard(day);
+    forecastContainer.appendChild(forecastCard);
+  });
+}
+
+function createForecastCard(dayData) {
+  const card = document.createElement("div");
+  card.classList.add("weather-card");
+
+  const dateElement = document.createElement("h3");
+  dateElement.innerText = dayData.date;
+  card.appendChild(dateElement);
+
+  const weatherIcon = document.createElement("img");
+  weatherIcon.src = dayData.day.condition.icon;
+  card.appendChild(weatherIcon);
+
+  const conditionElement = document.createElement("p");
+  conditionElement.innerText = dayData.day.condition.text;
+  card.appendChild(conditionElement);
+
+  const tempElement = document.createElement("p");
+  tempElement.innerText = `${dayData.day.avgtemp_c}°C`;
+  card.appendChild(tempElement);
+
+  return card;
+}
 
 async function searchCities(query) {
   const response = await fetch(
@@ -48,7 +90,7 @@ async function searchCities(query) {
 function handleSearch() {
   const city = cityInput.value;
   if (city) {
-    get_current(city);
+    getCurrent(city);
     dropdown.innerHTML = "";
   }
 }
@@ -94,4 +136,4 @@ cityInput.addEventListener("input", async function () {
   }
 });
 
-get_current("London");
+getCurrent("London");

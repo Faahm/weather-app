@@ -28,6 +28,7 @@ body {
   align-items: center;
   background-color: var(--backround);
   color: var(--text);
+  gap: 1.5rem;
 }
 
 h1 {
@@ -80,4 +81,16 @@ p {
 
 .dropdown-item:hover {
   background-color: #f0f0f0;
+}
+
+.section-forecast {
+  background-color: rgba(128, 128, 128, 0.5);
+  padding: 1.25rem;
+  border-radius: 1rem;
+}
+
+.forecast-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
