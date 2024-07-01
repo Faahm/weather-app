@@ -9,6 +9,13 @@
   <body>
     <h1>Weathery</h1>
     <h2>Check your city's weather</h2>
+
+    <div>
+      <input type="text" id="city-input" placeholder="Enter city name" />
+      <button id="search-button">Search</button>
+      <div id="dropdown" class="dropdown"></div>
+    </div>
+
     <div class="weather-card">
       <h3 class="city-title" data-city-title></h3>
       <h3 data-city-date></h3>
@@ -20,5 +27,7 @@
         </div>
       </div>
     </div>
+
+    <div id="forecast-container" class="forecast-container"></div>
   <script defer src="bundle.js"></script></body>
 </html>
